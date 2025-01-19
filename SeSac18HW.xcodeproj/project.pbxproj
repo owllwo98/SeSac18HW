@@ -32,7 +32,6 @@
 		5EF91EDC2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EDB2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift */; };
 		5EF91EDE2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EDD2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift */; };
 		5EF91EE02D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EDF2D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift */; };
-		5EF91EE22D3D356600BD958D /* CustomHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EE12D3D356600BD958D /* CustomHeaderCollectionReusableView.swift */; };
 		5EF91EE52D3D52FA00BD958D /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EE42D3D52FA00BD958D /* LikeViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,7 +60,6 @@
 		5EF91EDB2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTopicCollectionViewCell.swift; sourceTree = "<group>"; };
 		5EF91EDD2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondTopicCollectionViewCell.swift; sourceTree = "<group>"; };
 		5EF91EDF2D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdTopicCollectionViewCell.swift; sourceTree = "<group>"; };
-		5EF91EE12D3D356600BD958D /* CustomHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		5EF91EE42D3D52FA00BD958D /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,7 +144,6 @@
 				5EF91ED92D3D12E700BD958D /* Second */,
 				5EF91EDA2D3D12EF00BD958D /* Third */,
 				5EF91ED32D3D03A600BD958D /* TopicPhotoViewController.swift */,
-				5EF91EE12D3D356600BD958D /* CustomHeaderCollectionReusableView.swift */,
 			);
 			path = Topic;
 			sourceTree = "<group>";
@@ -282,7 +279,6 @@
 				5EF91EDE2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift in Sources */,
 				5E1AEB462D3B9FA6001143BF /* PhotoSearchDetailView.swift in Sources */,
 				5EF91ECF2D3CC1E500BD958D /* PhotoDetailViewController.swift in Sources */,
-				5EF91EE22D3D356600BD958D /* CustomHeaderCollectionReusableView.swift in Sources */,
 				5EF91EDC2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift in Sources */,
 				5E1AEB4E2D3BD403001143BF /* APIKey.swift in Sources */,
 				5EF91ED72D3D043200BD958D /* VideoViewController.swift in Sources */,

@@ -18,6 +18,7 @@ class PhotoSearchDetailView: BaseView {
         button.setTitle(" 관련순", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(systemName: "book"), for: .normal)
+        button.tintColor = .black
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.backgroundColor = .white
         button.layer.cornerRadius = 12
@@ -34,11 +35,14 @@ class PhotoSearchDetailView: BaseView {
         
         return searchBar
     }()
-    
-    let standardButton = PhotoSearchDetailView.createButton(title: "  정확도  ", tag: 0)
-    let dateSortButton = PhotoSearchDetailView.createButton(title: "  날짜순  ", tag: 1)
-    let highPriceSortButton = PhotoSearchDetailView.createButton(title: "  가격높은순  ", tag: 2)
-    let lowPriceSortButton = PhotoSearchDetailView.createButton(title: "  가격낮은순  agagagagagagagagagagaggagagagagagagagagaga", tag: 3)
+   
+    let blackButton = PhotoSearchDetailView.createButton(title: " 블랙  ", tag: 0, color: .black)
+    let whiteButton = PhotoSearchDetailView.createButton(title: "  화이트  ", tag: 1, color: .white)
+    let yellowButton = PhotoSearchDetailView.createButton(title: "  옐로우  ", tag: 2, color: .yellow)
+    let redButton = PhotoSearchDetailView.createButton(title: "  레드  ", tag: 3, color: .red)
+    let purpleButton = PhotoSearchDetailView.createButton(title: "  퍼플  ", tag: 4, color: .purple)
+    let greenButton = PhotoSearchDetailView.createButton(title: "  그린  ", tag: 5, color: .green)
+    let blueButton = PhotoSearchDetailView.createButton(title: "  블루  ", tag: 6, color: .blue)
     
     let mainLabel: UILabel = UILabel()
     
@@ -66,7 +70,7 @@ class PhotoSearchDetailView: BaseView {
       
        
         
-        [standardButton, dateSortButton, highPriceSortButton, lowPriceSortButton].forEach {
+        [blackButton, whiteButton, yellowButton, redButton, purpleButton, greenButton, blueButton].forEach {
             stackView.addArrangedSubview($0)
         }
     }
@@ -115,8 +119,8 @@ class PhotoSearchDetailView: BaseView {
     override func configureView() {
         stackView.spacing = 8
         
-        standardButton.backgroundColor = .blue
-        standardButton.setTitleColor(.white, for: .normal)
+        blackButton.backgroundColor = .blue
+        blackButton.setTitleColor(.white, for: .normal)
         
         
         colorScrollView.backgroundColor = .white
@@ -129,13 +133,15 @@ class PhotoSearchDetailView: BaseView {
         mainLabel.font = .systemFont(ofSize: 24, weight: .bold)
     }
     
-    private static func createButton(title: String, tag: Int) -> UIButton {
+    private static func createButton(title: String, tag: Int, color: UIColor) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = UIColor(red: 0.949, green: 0.949, blue: 0.945, alpha: 1)
         button.layer.cornerRadius = 12
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        button.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+        button.tintColor = color
         button.tag = tag
         
         return button

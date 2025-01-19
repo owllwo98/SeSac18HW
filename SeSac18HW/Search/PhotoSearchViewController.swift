@@ -16,6 +16,7 @@ class PhotoSearchViewController: UIViewController {
     
     var list: [PhotoElement] = []
     
+    var color: String = "black"
     var page: Int = 1
     var isEnd: Bool = false
     var order: String = "relevant"
@@ -53,16 +54,19 @@ class PhotoSearchViewController: UIViewController {
     }
     
     func configureActions() {
-        [photoSearchDetailView.standardButton,
-         photoSearchDetailView.dateSortButton,
-         photoSearchDetailView.highPriceSortButton,
-         photoSearchDetailView.lowPriceSortButton].forEach {
+        [photoSearchDetailView.blackButton,
+         photoSearchDetailView.whiteButton,
+         photoSearchDetailView.yellowButton,
+         photoSearchDetailView.redButton, photoSearchDetailView.purpleButton, photoSearchDetailView.greenButton, photoSearchDetailView.blueButton].forEach {
             $0.addTarget(self, action: #selector(radioButton(_:)), for: .touchUpInside)
         }
-        photoSearchDetailView.standardButton.addTarget(self, action: #selector(similar), for: .touchUpInside)
-        photoSearchDetailView.dateSortButton.addTarget(self, action: #selector(dateSort), for: .touchUpInside)
-        photoSearchDetailView.highPriceSortButton.addTarget(self, action: #selector(descending), for: .touchUpInside)
-        photoSearchDetailView.lowPriceSortButton.addTarget(self, action: #selector(Ascending), for: .touchUpInside)
+        photoSearchDetailView.blackButton.addTarget(self, action: #selector(black), for: .touchUpInside)
+        photoSearchDetailView.whiteButton.addTarget(self, action: #selector(white), for: .touchUpInside)
+        photoSearchDetailView.yellowButton.addTarget(self, action: #selector(yellow), for: .touchUpInside)
+        photoSearchDetailView.redButton.addTarget(self, action: #selector(red), for: .touchUpInside)
+        photoSearchDetailView.purpleButton.addTarget(self, action: #selector(purple), for: .touchUpInside)
+        photoSearchDetailView.greenButton.addTarget(self, action: #selector(green), for: .touchUpInside)
+        photoSearchDetailView.blueButton.addTarget(self, action: #selector(blue), for: .touchUpInside)
         
         photoSearchDetailView.orderButton.addTarget(self, action: #selector(orderList), for: .touchUpInside)
         
@@ -105,8 +109,6 @@ extension PhotoSearchViewController: UISearchBarDelegate {
     
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print(#function)
-        
         dissmissKeyboard()
         
         guard let text = photoSearchDetailView.shoppingSearchBar.text else {
@@ -115,7 +117,7 @@ extension PhotoSearchViewController: UISearchBarDelegate {
         
         query = text
         
-        NetworkManager.shared.request(url: "https://api.unsplash.com/search/photos?&page=1&per_page=20&client_id=\(APIKey.clientID)&order_by=relevant" + "&query=\(query)" + "&order_by=\(order)", T: Photo.self) { [weak self] (photo: Photo) in
+        NetworkManager.shared.request(url: "https://api.unsplash.com/search/photos?&page=1&per_page=20&client_id=\(APIKey.clientID)&order_by=relevant&color=black" + "&query=\(query)" + "&order_by=\(order)" + "&color=\(color)", T: Photo.self) { [weak self] (photo: Photo) in
             guard let self = self else {return}
             
             list = photo.results
@@ -147,10 +149,10 @@ extension PhotoSearchViewController: UICollectionViewDataSourcePrefetching {
 extension PhotoSearchViewController {
     @objc
     func radioButton(_ sender: UIButton) {
-        [photoSearchDetailView.standardButton,
-         photoSearchDetailView.dateSortButton,
-         photoSearchDetailView.highPriceSortButton,
-         photoSearchDetailView.lowPriceSortButton].forEach {
+        [photoSearchDetailView.blackButton,
+         photoSearchDetailView.whiteButton,
+         photoSearchDetailView.yellowButton,
+         photoSearchDetailView.redButton, photoSearchDetailView.purpleButton, photoSearchDetailView.greenButton, photoSearchDetailView.blueButton].forEach {
             if $0.tag == sender.tag {
                 $0.backgroundColor = .blue
                 $0.setTitleColor(.white, for: .normal)
@@ -162,28 +164,44 @@ extension PhotoSearchViewController {
     }
     
     @objc
-    func descending() {
-        sort(by: "dsc")
+    func black() {
+        sort(by: "black")
     }
     
     @objc
-    func Ascending() {
-        sort(by: "asc")
+    func white() {
+        sort(by: "white")
     }
     
     @objc
-    func dateSort() {
-        sort(by: "date")
+    func yellow() {
+        sort(by: "yellow")
     }
     
     @objc
-    func similar() {
-        sort(by: "sim")
+    func red() {
+        sort(by: "red")
     }
     
-    func sort(by order: String) {
-        self.order = order
+    @objc
+    func purple() {
+        sort(by: "purple")
+    }
+    
+    @objc
+    func green() {
+        sort(by: "green")
+    }
+    
+    @objc
+    func blue() {
+        sort(by: "blue")
+    }
+    
+    func sort(by color: String) {
+        self.color = color
         page = 1
+        requestPhotoData()
     }
     
     
@@ -201,8 +219,6 @@ extension PhotoSearchViewController {
         
         order = photoSearchDetailView.orderButton.isSelected ? "latest" : "relevant"
         
-        print(order)
-        
         requestPhotoData()
     }
     
@@ -211,7 +227,7 @@ extension PhotoSearchViewController {
 
 extension PhotoSearchViewController {
     func requestPhotoData() {
-        NetworkManager.shared.request(url: "https://api.unsplash.com/search/photos?&page=\(page)&per_page=20&client_id=\(APIKey.clientID)" + "&query=\(query)" + "&order_by=\(order)", T: Photo.self) { [weak self] (photo: Photo) in
+        NetworkManager.shared.request(url: "https://api.unsplash.com/search/photos?&page=\(page)&per_page=20&client_id=\(APIKey.clientID)" + "&query=\(query)" + "&order_by=\(order)" + "&color=\(color)", T: Photo.self) { [weak self] (photo: Photo) in
             guard let self = self else {return}
             
             if photo.total_pages == page {
