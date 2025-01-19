@@ -30,6 +30,8 @@
 		5EF91ED42D3D03A600BD958D /* TopicPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91ED32D3D03A600BD958D /* TopicPhotoViewController.swift */; };
 		5EF91ED72D3D043200BD958D /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91ED62D3D043200BD958D /* VideoViewController.swift */; };
 		5EF91EDC2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EDB2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift */; };
+		5EF91EDE2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EDD2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift */; };
+		5EF91EE02D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91EDF2D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +57,8 @@
 		5EF91ED32D3D03A600BD958D /* TopicPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotoViewController.swift; sourceTree = "<group>"; };
 		5EF91ED62D3D043200BD958D /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		5EF91EDB2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTopicCollectionViewCell.swift; sourceTree = "<group>"; };
+		5EF91EDD2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondTopicCollectionViewCell.swift; sourceTree = "<group>"; };
+		5EF91EDF2D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdTopicCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,7 @@
 		5EF91ED92D3D12E700BD958D /* Second */ = {
 			isa = PBXGroup;
 			children = (
+				5EF91EDD2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift */,
 			);
 			path = Second;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 		5EF91EDA2D3D12EF00BD958D /* Third */ = {
 			isa = PBXGroup;
 			children = (
+				5EF91EDF2D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift */,
 			);
 			path = Third;
 			sourceTree = "<group>";
@@ -259,6 +265,7 @@
 				5E1AEB4A2D3BD3C5001143BF /* NetworkManager.swift in Sources */,
 				5E1AEB2E2D3B936D001143BF /* TabBarController.swift in Sources */,
 				5E1AEB1A2D3A6A46001143BF /* AppDelegate.swift in Sources */,
+				5EF91EDE2D3D30E500BD958D /* SecondTopicCollectionViewCell.swift in Sources */,
 				5E1AEB462D3B9FA6001143BF /* PhotoSearchDetailView.swift in Sources */,
 				5EF91ECF2D3CC1E500BD958D /* PhotoDetailViewController.swift in Sources */,
 				5EF91EDC2D3D19A900BD958D /* FirstTopicCollectionViewCell.swift in Sources */,
@@ -267,6 +274,7 @@
 				5E1AEB442D3B9F5F001143BF /* BaseView.swift in Sources */,
 				5EF91ED42D3D03A600BD958D /* TopicPhotoViewController.swift in Sources */,
 				5EF91ED12D3CD1E100BD958D /* Extension.swift in Sources */,
+				5EF91EE02D3D30F200BD958D /* ThirdTopicCollectionViewCell.swift in Sources */,
 				5E1AEB482D3BC39A001143BF /* PhotoSearchCollectionViewCell.swift in Sources */,
 				5E1AEB1C2D3A6A46001143BF /* SceneDelegate.swift in Sources */,
 				5E1AEB302D3B9D4E001143BF /* Photo.swift in Sources */,

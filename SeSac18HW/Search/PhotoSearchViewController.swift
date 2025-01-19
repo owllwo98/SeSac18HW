@@ -31,30 +31,9 @@ class PhotoSearchViewController: UIViewController {
         
         photoSearchDetailView.mainLabel.isHidden = false
         
-        
-//        NetworkManager.shared.request(url: "https://api.unsplash.com/search/photos?&page=1&per_page=20&order_by=latest&client_id=zoklKdN5VuwLKOz8zO2tip4kzaXjec_ECncOFwU7rEA" + "&query=\(query)", T: Photo.self) { [weak self] (photo: Photo) in
-//            guard let self = self else {return}
-//            
-//            list = photo.results
-//            
-//            photoSearchDetailView.collectionView.reloadData()
-//        }
-        
-        configureHierarchy()
-        configureLayout()
         configureView()
         
         configureActions()
-        
-    }
-    
-    func configureHierarchy() {
-        
-        
-    }
-    
-    func configureLayout() {
-        
         
     }
     
