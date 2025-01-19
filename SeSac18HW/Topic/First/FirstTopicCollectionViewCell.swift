@@ -6,11 +6,21 @@
 //
 
 import UIKit
+import SnapKit
+import Kingfisher
 
 class FirstTopicCollectionViewCell: UICollectionViewCell {
     
+    let topicImageView: UIImageView = UIImageView()
+    let starLabel: UILabel = UILabel()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        configureHierarchy()
+        configureUI()
+        configureLayout()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -19,28 +29,32 @@ class FirstTopicCollectionViewCell: UICollectionViewCell {
     
     
     func configureHierarchy() {
-        
-    }
-    
-    func configureUI() {
-        
-      
+        contentView.addSubview(topicImageView)
+        topicImageView.addSubview(starLabel)
     }
     
     func configureLayout() {
-       
+        topicImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        starLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().inset(8)
+        }
+    }
+    
+    func configureUI() {
+        starLabel.backgroundColor = .lightGray
+        starLabel.textColor = .white
     }
     
     func configureData(_ list: PhotoElement) {
-       
-    
-    }
-    
-}
-
-
-extension FirstTopicCollectionViewCell {
-    func requestTopicData() {
+        let url = URL(string: list.urls.raw)
+        topicImageView.kf.setImage(with: url)
         
+        UILabel.updateWithPhotoElement(starLabel, list)
     }
+    
 }
+

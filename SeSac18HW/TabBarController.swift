@@ -18,19 +18,20 @@ class TabBarController: UITabBarController {
     
     func configureTabBarController() {
         let firstVC = TopicPhotoViewController()
-        firstVC.tabBarItem.title = "설정 화면"
-        firstVC.tabBarItem.image = UIImage(systemName: "star")
-        firstVC.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
+        firstVC.tabBarItem.image = UIImage(systemName: "chart.line.uptrend.xyaxis.circle")
+        firstVC.tabBarItem.selectedImage = UIImage(systemName: "chart.line.uptrend.xyaxis.circle.fill")
         
         let secondVC = VideoViewController()
-        secondVC.tabBarItem = UITabBarItem(title: "스냅샷", image: UIImage(systemName: "trash"), selectedImage: UIImage(systemName: "trash.fill"))
+        secondVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "play.square.stack"), selectedImage: UIImage(systemName: "play.square.stack.fill"))
         
         let thirdVC = PhotoSearchViewController()
-        thirdVC.title = "디테일"
         thirdVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass.circle.fill"))
         let thirdNav = UINavigationController(rootViewController: thirdVC)
         
-        setViewControllers([firstVC, secondVC, thirdNav], animated: true)
+        let FourthVC = LikeViewController()
+        FourthVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        
+        setViewControllers([firstVC, secondVC, thirdNav, FourthVC], animated: true)
     }
     
     func setupTabBarAppearance() {

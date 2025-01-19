@@ -12,6 +12,10 @@ import Kingfisher
 
 class TopicPhotoViewController: UIViewController {
     
+    var goldenList: [PhotoElement] = []
+    var businessList: [PhotoElement] = []
+    var architectureList: [PhotoElement] = []
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "OUR TOPIC"
@@ -26,6 +30,33 @@ class TopicPhotoViewController: UIViewController {
     lazy var firstCollectionView: UICollectionView = createHorizontalCollectionView()
     lazy var secondCollectionView: UICollectionView = createHorizontalCollectionView()
     lazy var thirdCollectionView: UICollectionView = createHorizontalCollectionView()
+    
+    lazy var firstHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "골든 아워"
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        
+        return label
+    }()
+    
+    lazy var secondHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "비즈니스 및 업무"
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        
+        return label
+    }()
+    
+    lazy var thirdHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "건축 및 인테리어"
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +75,13 @@ class TopicPhotoViewController: UIViewController {
         firstCollectionView.register(FirstTopicCollectionViewCell.self, forCellWithReuseIdentifier: "FirstTopicCollectionViewCell")
         secondCollectionView.register(SecondTopicCollectionViewCell.self, forCellWithReuseIdentifier: "SecondTopicCollectionViewCell")
         thirdCollectionView.register(ThirdTopicCollectionViewCell.self, forCellWithReuseIdentifier: "ThirdTopicCollectionViewCell")
+        
+        
+        if goldenList.count  == 10 && businessList.count == 10 && architectureList.count == 10 {
+            
+        } else {
+            requestData()
+        }
     }
     
     func createHorizontalCollectionView() -> UICollectionView {
@@ -55,6 +93,7 @@ class TopicPhotoViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
+        
         return collectionView
     }
     
@@ -62,6 +101,10 @@ class TopicPhotoViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(verticalScrollView)
         verticalScrollView.addSubview(contentView)
+        
+        [firstHeaderLabel, secondHeaderLabel, thirdHeaderLabel].forEach {
+            contentView.addSubview($0)
+        }
         
         contentView.addSubview(firstCollectionView)
         contentView.addSubview(secondCollectionView)
@@ -84,21 +127,38 @@ class TopicPhotoViewController: UIViewController {
             make.width.equalTo(verticalScrollView)
         }
         
-        firstCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(UIScreen.main.bounds.width / 1.5)
+        firstHeaderLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         
-        secondCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(firstCollectionView.snp.bottom).offset(16)
+        firstCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(firstHeaderLabel.snp.bottom).inset(-8)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width / 1.5)
         }
         
-        thirdCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(secondCollectionView.snp.bottom).offset(16)
-            make.leading.trailing.bottom.equalToSuperview()
+        secondHeaderLabel.snp.makeConstraints { make in
+            make.top.equalTo(firstCollectionView.snp.bottom).inset(-16)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        secondCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(secondHeaderLabel.snp.bottom).inset(-8)
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width / 1.5)
+        }
+        
+        thirdHeaderLabel.snp.makeConstraints { make in
+            make.top.equalTo(secondCollectionView.snp.bottom).inset(-16)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        thirdCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(thirdHeaderLabel.snp.bottom).inset(-8)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(UIScreen.main.bounds.width / 1.5)
+            make.bottom.equalToSuperview()
         }
     }
 }
@@ -106,7 +166,14 @@ class TopicPhotoViewController: UIViewController {
 extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if collectionView == firstCollectionView {
+            return goldenList.count
+        } else if collectionView == secondCollectionView {
+            return businessList.count
+        } else if collectionView == thirdCollectionView {
+            return architectureList.count
+        }
+        return 0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -116,16 +183,59 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == firstCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
-            cell.backgroundColor = .lightGray
+            cell.configureData(goldenList[indexPath.item])
+            DispatchQueue.main.async {
+                cell.topicImageView.layer.cornerRadius = 8
+                cell.topicImageView.clipsToBounds = true
+                cell.starLabel.layer.cornerRadius = 10
+                cell.starLabel.clipsToBounds = true
+            }
+            
             return cell
         } else if collectionView == secondCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SecondTopicCollectionViewCell", for: indexPath) as! SecondTopicCollectionViewCell
-            cell.backgroundColor = .blue
+            cell.configureData(businessList[indexPath.item])
+            DispatchQueue.main.async {
+                cell.topicImageView.layer.cornerRadius = 8
+                cell.topicImageView.clipsToBounds = true
+                cell.starLabel.layer.cornerRadius = 10
+                cell.starLabel.clipsToBounds = true
+            }
+            
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThirdTopicCollectionViewCell", for: indexPath) as! ThirdTopicCollectionViewCell
-            cell.backgroundColor = .green
+            cell.configureData(architectureList[indexPath.item])
+            DispatchQueue.main.async {
+                cell.topicImageView.layer.cornerRadius = 8
+                cell.topicImageView.clipsToBounds = true
+                cell.starLabel.layer.cornerRadius = 10
+                cell.starLabel.clipsToBounds = true
+            }
+            
             return cell
+        }
+    }
+}
+
+extension TopicPhotoViewController {
+    func requestData() {
+        NetworkManager.shared.request(url: "https://api.unsplash.com/topics/golden-hour/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+            guard let self = self else {return}
+            goldenList = photo
+            firstCollectionView.reloadData()
+        }
+        
+        NetworkManager.shared.request(url: "https://api.unsplash.com/topics/business-work/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+            guard let self = self else {return}
+            businessList = photo
+            secondCollectionView.reloadData()
+        }
+        
+        NetworkManager.shared.request(url: "https://api.unsplash.com/topics/architecture-interior/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+            guard let self = self else {return}
+            architectureList = photo
+            thirdCollectionView.reloadData()
         }
     }
 }

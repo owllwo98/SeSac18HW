@@ -83,6 +83,8 @@ extension PhotoSearchViewController: UICollectionViewDataSource, UICollectionVie
         DispatchQueue.main.async {
             cell.itemImageView.layer.cornerRadius = 8
             cell.itemImageView.clipsToBounds = true
+            cell.starLabel.layer.cornerRadius = 10
+            cell.starLabel.clipsToBounds = true
         }
         return cell
     }
