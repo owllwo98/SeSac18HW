@@ -73,8 +73,8 @@ class TopicPhotoViewController: UIViewController {
         thirdCollectionView.dataSource = self
         
         firstCollectionView.register(FirstTopicCollectionViewCell.self, forCellWithReuseIdentifier: "FirstTopicCollectionViewCell")
-        secondCollectionView.register(SecondTopicCollectionViewCell.self, forCellWithReuseIdentifier: "SecondTopicCollectionViewCell")
-        thirdCollectionView.register(ThirdTopicCollectionViewCell.self, forCellWithReuseIdentifier: "ThirdTopicCollectionViewCell")
+        secondCollectionView.register(FirstTopicCollectionViewCell.self, forCellWithReuseIdentifier: "FirstTopicCollectionViewCell")
+        thirdCollectionView.register(FirstTopicCollectionViewCell.self, forCellWithReuseIdentifier: "FirstTopicCollectionViewCell")
         
         
         if goldenList.count  == 10 && businessList.count == 10 && architectureList.count == 10 {
@@ -82,6 +82,10 @@ class TopicPhotoViewController: UIViewController {
         } else {
             requestData()
         }
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "back"), style: .plain, target: self, action: nil)
+        navigationController?.navigationBar.tintColor = .black
     }
     
     func createHorizontalCollectionView() -> UICollectionView {
@@ -181,8 +185,11 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
+        
         if collectionView == firstCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
             cell.configureData(goldenList[indexPath.item])
             DispatchQueue.main.async {
                 cell.topicImageView.layer.cornerRadius = 8
@@ -193,7 +200,8 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
             
             return cell
         } else if collectionView == secondCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SecondTopicCollectionViewCell", for: indexPath) as! SecondTopicCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SecondTopicCollectionViewCell", for: indexPath) as! SecondTopicCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
             cell.configureData(businessList[indexPath.item])
             DispatchQueue.main.async {
                 cell.topicImageView.layer.cornerRadius = 8
@@ -204,7 +212,8 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
             
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThirdTopicCollectionViewCell", for: indexPath) as! ThirdTopicCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThirdTopicCollectionViewCell", for: indexPath) as! ThirdTopicCollectionViewCell
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
             cell.configureData(architectureList[indexPath.item])
             DispatchQueue.main.async {
                 cell.topicImageView.layer.cornerRadius = 8
@@ -216,26 +225,54 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
+        let vc = PhotoDetailViewController()
+        
+        if collectionView == firstCollectionView {
+            vc.list = goldenList[indexPath.item]
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if collectionView == secondCollectionView {
+            vc.list = businessList[indexPath.item]
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            vc.list = architectureList[indexPath.item]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 extension TopicPhotoViewController {
     func requestData() {
+        
+        let group = DispatchGroup()
+        
+        group.enter()
         NetworkManager.shared.request(url: "https://api.unsplash.com/topics/golden-hour/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
             guard let self = self else {return}
             goldenList = photo
-            firstCollectionView.reloadData()
+            group.leave()
         }
         
+        group.enter()
         NetworkManager.shared.request(url: "https://api.unsplash.com/topics/business-work/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
             guard let self = self else {return}
             businessList = photo
-            secondCollectionView.reloadData()
+            group.leave()
         }
         
-        NetworkManager.shared.request(url: "https://api.unsplash.com/topics/architecture-interior/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+        group.enter()
+        NetworkManager.shared.request(url:"https://api.unsplash.com/topics/architecture-interior/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
             guard let self = self else {return}
             architectureList = photo
-            thirdCollectionView.reloadData()
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            [self.firstCollectionView, self.secondCollectionView, self.thirdCollectionView].forEach {
+                $0.reloadData()
+            }
         }
     }
 }

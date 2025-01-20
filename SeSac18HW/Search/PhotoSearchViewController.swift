@@ -17,6 +17,8 @@ class PhotoSearchViewController: UIViewController {
     var list: [PhotoElement] = []
     
     var color: String = "black"
+    
+    var colorList: [String] = ["black", "white", "yellow", "red", "purple", "green", "blue"]
     var page: Int = 1
     var isEnd: Bool = false
     var order: String = "relevant"
@@ -60,13 +62,13 @@ class PhotoSearchViewController: UIViewController {
          photoSearchDetailView.redButton, photoSearchDetailView.purpleButton, photoSearchDetailView.greenButton, photoSearchDetailView.blueButton].forEach {
             $0.addTarget(self, action: #selector(radioButton(_:)), for: .touchUpInside)
         }
-        photoSearchDetailView.blackButton.addTarget(self, action: #selector(black), for: .touchUpInside)
-        photoSearchDetailView.whiteButton.addTarget(self, action: #selector(white), for: .touchUpInside)
-        photoSearchDetailView.yellowButton.addTarget(self, action: #selector(yellow), for: .touchUpInside)
-        photoSearchDetailView.redButton.addTarget(self, action: #selector(red), for: .touchUpInside)
-        photoSearchDetailView.purpleButton.addTarget(self, action: #selector(purple), for: .touchUpInside)
-        photoSearchDetailView.greenButton.addTarget(self, action: #selector(green), for: .touchUpInside)
-        photoSearchDetailView.blueButton.addTarget(self, action: #selector(blue), for: .touchUpInside)
+        photoSearchDetailView.blackButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
+        photoSearchDetailView.whiteButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
+        photoSearchDetailView.yellowButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
+        photoSearchDetailView.redButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
+        photoSearchDetailView.purpleButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
+        photoSearchDetailView.greenButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
+        photoSearchDetailView.blueButton.addTarget(self, action: #selector(sort), for: .touchUpInside)
         
         photoSearchDetailView.orderButton.addTarget(self, action: #selector(orderList), for: .touchUpInside)
         
@@ -96,7 +98,7 @@ extension PhotoSearchViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PhotoDetailViewController()
         
-        vc.contents = (indexPath.item).formatted()
+//        vc.contents = (indexPath.item).formatted()
         vc.list = list[indexPath.item]
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -156,6 +158,7 @@ extension PhotoSearchViewController {
             if $0.tag == sender.tag {
                 $0.backgroundColor = .blue
                 $0.setTitleColor(.white, for: .normal)
+                color = colorList[$0.tag]
             } else {
                 $0.backgroundColor = UIColor(red: 0.949, green: 0.949, blue: 0.945, alpha: 1)
                 $0.setTitleColor(.black, for: .normal)
@@ -164,42 +167,7 @@ extension PhotoSearchViewController {
     }
     
     @objc
-    func black() {
-        sort(by: "black")
-    }
-    
-    @objc
-    func white() {
-        sort(by: "white")
-    }
-    
-    @objc
-    func yellow() {
-        sort(by: "yellow")
-    }
-    
-    @objc
-    func red() {
-        sort(by: "red")
-    }
-    
-    @objc
-    func purple() {
-        sort(by: "purple")
-    }
-    
-    @objc
-    func green() {
-        sort(by: "green")
-    }
-    
-    @objc
-    func blue() {
-        sort(by: "blue")
-    }
-    
-    func sort(by color: String) {
-        self.color = color
+    func sort() {
         page = 1
         requestPhotoData()
     }

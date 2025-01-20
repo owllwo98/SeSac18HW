@@ -20,6 +20,8 @@ class TabBarController: UITabBarController {
         let firstVC = TopicPhotoViewController()
         firstVC.tabBarItem.image = UIImage(systemName: "chart.line.uptrend.xyaxis.circle")
         firstVC.tabBarItem.selectedImage = UIImage(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+        let firstNAV = UINavigationController(rootViewController: firstVC)
+
         
         let secondVC = VideoViewController()
         secondVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "play.square.stack"), selectedImage: UIImage(systemName: "play.square.stack.fill"))
@@ -31,7 +33,7 @@ class TabBarController: UITabBarController {
         let FourthVC = LikeViewController()
         FourthVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
         
-        setViewControllers([firstVC, secondVC, thirdNav, FourthVC], animated: true)
+        setViewControllers([firstNAV, secondVC, thirdNav, FourthVC], animated: true)
     }
     
     func setupTabBarAppearance() {

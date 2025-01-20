@@ -169,6 +169,7 @@ class PhotoDetailViewController: UIViewController {
         
         userNameLabel.text = list.user.name
         dateLabel.text = list.created_at
+
        
         let imageUrl = URL(string: list.urls.small)
         detailImageView.kf.setImage(with: imageUrl)
