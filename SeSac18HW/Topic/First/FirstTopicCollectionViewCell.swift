@@ -47,6 +47,11 @@ class FirstTopicCollectionViewCell: UICollectionViewCell {
     func configureUI() {
         starLabel.backgroundColor = .lightGray
         starLabel.textColor = .white
+        
+        topicImageView.layer.cornerRadius = 8
+        topicImageView.clipsToBounds = true
+        starLabel.layer.cornerRadius = 10
+        starLabel.clipsToBounds = true
     }
     
     func configureData(_ list: PhotoElement) {

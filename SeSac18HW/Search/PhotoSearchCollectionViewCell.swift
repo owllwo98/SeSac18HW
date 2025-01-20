@@ -36,6 +36,11 @@ class PhotoSearchCollectionViewCell: UICollectionViewCell {
         starLabel.backgroundColor = .lightGray
         starLabel.textColor = .white
         itemImageView.tintColor = .yellow
+        
+        itemImageView.layer.cornerRadius = 8
+        itemImageView.clipsToBounds = true
+        starLabel.layer.cornerRadius = 10
+        starLabel.clipsToBounds = true
     }
     
     func configureLayout() {

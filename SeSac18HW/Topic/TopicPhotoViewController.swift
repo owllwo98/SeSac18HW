@@ -188,40 +188,21 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
         
+//        DispatchQueue.main.async {
+//            cell.topicImageView.layer.cornerRadius = 8
+//            cell.topicImageView.clipsToBounds = true
+//            cell.starLabel.layer.cornerRadius = 10
+//            cell.starLabel.clipsToBounds = true
+//        }
+        
         if collectionView == firstCollectionView {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
             cell.configureData(goldenList[indexPath.item])
-            DispatchQueue.main.async {
-                cell.topicImageView.layer.cornerRadius = 8
-                cell.topicImageView.clipsToBounds = true
-                cell.starLabel.layer.cornerRadius = 10
-                cell.starLabel.clipsToBounds = true
-            }
-            
             return cell
         } else if collectionView == secondCollectionView {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SecondTopicCollectionViewCell", for: indexPath) as! SecondTopicCollectionViewCell
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
             cell.configureData(businessList[indexPath.item])
-            DispatchQueue.main.async {
-                cell.topicImageView.layer.cornerRadius = 8
-                cell.topicImageView.clipsToBounds = true
-                cell.starLabel.layer.cornerRadius = 10
-                cell.starLabel.clipsToBounds = true
-            }
-            
             return cell
         } else {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThirdTopicCollectionViewCell", for: indexPath) as! ThirdTopicCollectionViewCell
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
             cell.configureData(architectureList[indexPath.item])
-            DispatchQueue.main.async {
-                cell.topicImageView.layer.cornerRadius = 8
-                cell.topicImageView.clipsToBounds = true
-                cell.starLabel.layer.cornerRadius = 10
-                cell.starLabel.clipsToBounds = true
-            }
-            
             return cell
         }
     }
