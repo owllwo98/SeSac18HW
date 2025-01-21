@@ -81,6 +81,7 @@ class PhotoDetailViewController: UIViewController {
         configureLayout()
         configureUI()
         
+        requestData()
         
     }
     
@@ -153,10 +154,7 @@ class PhotoDetailViewController: UIViewController {
         
         numberStackView.spacing = 8
         numberStackView.axis = .vertical
-        
-        
-        
-        
+ 
     }
     
     func configureUI() {
@@ -175,14 +173,6 @@ class PhotoDetailViewController: UIViewController {
         detailImageView.kf.setImage(with: imageUrl)
         
         sizeNumLabel.text = list.width.formatted() + " X " + list.height.formatted()
-//        viewsNumLabel.text = list.
-        
-        NetworkManager.shared.request(url: "https://api.unsplash.com/photos/\(list.id)/statistics?client_id=\(APIKey.clientID)", T: DetailPhoto.self) { [weak self] (detailPhoto: DetailPhoto) in
-            guard let self = self else {return}
-            
-            viewsNumLabel.text = detailPhoto.views.total.formatted()
-            downloadNumLabel.text = detailPhoto.downloads.total.formatted()
-        }
     }
     
     
@@ -194,8 +184,18 @@ class PhotoDetailViewController: UIViewController {
       
         return label
     }
-    
 
-   
+    func requestData() {
+        guard let list else {
+            return
+        }
+        
+        NetworkManager.shared.fetchData(api: PhotoRouter.getStatistics(imageID: list.id), T: DetailPhoto.self) { [weak self] (detailPhoto: DetailPhoto) in
+            guard let self = self else {return}
+            
+            viewsNumLabel.text = detailPhoto.views.total.formatted()
+            downloadNumLabel.text = detailPhoto.downloads.total.formatted()
+        }
+    }
 
 }

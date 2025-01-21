@@ -28,4 +28,17 @@ class NetworkManager {
         }
     }
     
+    func fetchData<T: Decodable>(api: PhotoRouter , T: T.Type,  completion: @escaping (T) -> Void) {
+        AF.request(api).responseDecodable(of: T.self) { response in
+            switch response.result {
+                
+            case .success(let value):
+                guard let decodedData = response.value else { return }
+                completion(decodedData)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
 }

@@ -12,9 +12,15 @@ import Kingfisher
 
 class TopicPhotoViewController: UIViewController {
     
-    var goldenList: [PhotoElement] = []
-    var businessList: [PhotoElement] = []
-    var architectureList: [PhotoElement] = []
+    var firstList: [PhotoElement] = []
+    var secondList: [PhotoElement] = []
+    var thirdList: [PhotoElement] = []
+    
+    let categories = [
+        "architecture-interior","golden-hour","wallpapers","nature","3d-renders","travel","textures-patterns","street-photography","film","archival","experimental","animals","fashion-beauty","people","business-work","food-drink"
+    ].shuffled()
+    
+    lazy var randomCategories: [String] = [categories[0], categories[1], categories[2]]
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -33,7 +39,7 @@ class TopicPhotoViewController: UIViewController {
     
     lazy var firstHeaderLabel: UILabel = {
         let label = UILabel()
-        label.text = "골든 아워"
+        label.text = randomCategories[0]
         label.textColor = .black
         label.font = .systemFont(ofSize: 16, weight: .bold)
         
@@ -42,7 +48,7 @@ class TopicPhotoViewController: UIViewController {
     
     lazy var secondHeaderLabel: UILabel = {
         let label = UILabel()
-        label.text = "비즈니스 및 업무"
+        label.text = randomCategories[1]
         label.textColor = .black
         label.font = .systemFont(ofSize: 16, weight: .bold)
         
@@ -51,7 +57,7 @@ class TopicPhotoViewController: UIViewController {
     
     lazy var thirdHeaderLabel: UILabel = {
         let label = UILabel()
-        label.text = "건축 및 인테리어"
+        label.text = randomCategories[2]
         label.textColor = .black
         label.font = .systemFont(ofSize: 16, weight: .bold)
         
@@ -77,7 +83,7 @@ class TopicPhotoViewController: UIViewController {
         thirdCollectionView.register(FirstTopicCollectionViewCell.self, forCellWithReuseIdentifier: "FirstTopicCollectionViewCell")
         
         
-        if goldenList.count  == 10 && businessList.count == 10 && architectureList.count == 10 {
+        if firstList.count  == 10 && secondList.count == 10 && thirdList.count == 10 {
             
         } else {
             requestData()
@@ -171,11 +177,11 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == firstCollectionView {
-            return goldenList.count
+            return firstList.count
         } else if collectionView == secondCollectionView {
-            return businessList.count
+            return secondList.count
         } else if collectionView == thirdCollectionView {
-            return architectureList.count
+            return thirdList.count
         }
         return 0
     }
@@ -188,21 +194,14 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstTopicCollectionViewCell", for: indexPath) as! FirstTopicCollectionViewCell
         
-//        DispatchQueue.main.async {
-//            cell.topicImageView.layer.cornerRadius = 8
-//            cell.topicImageView.clipsToBounds = true
-//            cell.starLabel.layer.cornerRadius = 10
-//            cell.starLabel.clipsToBounds = true
-//        }
-        
         if collectionView == firstCollectionView {
-            cell.configureData(goldenList[indexPath.item])
+            cell.configureData(firstList[indexPath.item])
             return cell
         } else if collectionView == secondCollectionView {
-            cell.configureData(businessList[indexPath.item])
+            cell.configureData(secondList[indexPath.item])
             return cell
         } else {
-            cell.configureData(architectureList[indexPath.item])
+            cell.configureData(thirdList[indexPath.item])
             return cell
         }
     }
@@ -212,13 +211,13 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         let vc = PhotoDetailViewController()
         
         if collectionView == firstCollectionView {
-            vc.list = goldenList[indexPath.item]
+            vc.list = firstList[indexPath.item]
             self.navigationController?.pushViewController(vc, animated: true)
         } else if collectionView == secondCollectionView {
-            vc.list = businessList[indexPath.item]
+            vc.list = secondList[indexPath.item]
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            vc.list = architectureList[indexPath.item]
+            vc.list = thirdList[indexPath.item]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -230,23 +229,23 @@ extension TopicPhotoViewController {
         let group = DispatchGroup()
         
         group.enter()
-        NetworkManager.shared.request(url: "https://api.unsplash.com/topics/golden-hour/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[0]), T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
             guard let self = self else {return}
-            goldenList = photo
+            firstList = photo
             group.leave()
         }
         
         group.enter()
-        NetworkManager.shared.request(url: "https://api.unsplash.com/topics/business-work/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[1]), T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
             guard let self = self else {return}
-            businessList = photo
+            secondList = photo
             group.leave()
         }
         
         group.enter()
-        NetworkManager.shared.request(url:"https://api.unsplash.com/topics/architecture-interior/photos?page=1&per_page=10&client_id=\(APIKey.clientID)", T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[2]), T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
             guard let self = self else {return}
-            architectureList = photo
+            thirdList = photo
             group.leave()
         }
         

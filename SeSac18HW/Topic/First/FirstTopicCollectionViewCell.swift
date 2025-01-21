@@ -55,7 +55,7 @@ class FirstTopicCollectionViewCell: UICollectionViewCell {
     }
     
     func configureData(_ list: PhotoElement) {
-        let url = URL(string: list.urls.raw)
+        let url = URL(string: list.urls.thumb)
         topicImageView.kf.setImage(with: url)
         
         UILabel.updateWithPhotoElement(starLabel, list)
