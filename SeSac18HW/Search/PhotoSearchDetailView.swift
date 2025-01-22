@@ -8,8 +8,7 @@
 import UIKit
 import SnapKit
 
-class PhotoSearchDetailView: BaseView {
-    
+final class PhotoSearchDetailView: BaseView {
     let colorScrollView: UIScrollView = UIScrollView()
     let stackView = UIStackView()
     let titleView: UIView = UIView()

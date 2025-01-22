@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class PhotoSearchCollectionViewCell: UICollectionViewCell {
-    let itemImageView: UIImageView = UIImageView()
-    let starLabel: UILabel = UILabel()
+final class PhotoSearchCollectionViewCell: UICollectionViewCell {
+    private let itemImageView: UIImageView = UIImageView()
+    private let starLabel: UILabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,6 +19,7 @@ class PhotoSearchCollectionViewCell: UICollectionViewCell {
         configureHierarchy()
         configureUI()
         configureLayout()
+        
      
     }
     
@@ -26,12 +27,12 @@ class PhotoSearchCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureHierarchy() {
+    private func configureHierarchy() {
         contentView.addSubview(itemImageView)
         itemImageView.addSubview(starLabel)
     }
     
-    func configureUI() {
+    private func configureUI() {
         
         starLabel.backgroundColor = .lightGray
         starLabel.textColor = .white
@@ -43,7 +44,7 @@ class PhotoSearchCollectionViewCell: UICollectionViewCell {
         starLabel.clipsToBounds = true
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         itemImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -55,7 +56,7 @@ class PhotoSearchCollectionViewCell: UICollectionViewCell {
     }
     
     func configureData(_ list: PhotoElement) {
-        let url = URL(string: list.urls.raw)
+        let url = URL(string: list.urls.thumb)
         itemImageView.kf.setImage(with: url)
         
         UILabel.updateWithPhotoElement(starLabel, list)

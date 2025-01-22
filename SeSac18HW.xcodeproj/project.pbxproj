@@ -25,6 +25,8 @@
 		5E1AEB4A2D3BD3C5001143BF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1AEB492D3BD3C5001143BF /* NetworkManager.swift */; };
 		5E1AEB4C2D3BD3ED001143BF /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5E1AEB4B2D3BD3ED001143BF /* .gitignore */; };
 		5E1AEB4E2D3BD403001143BF /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1AEB4D2D3BD403001143BF /* APIKey.swift */; };
+		5E3504962D3FE3E4004659DC /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3504952D3FE3E4004659DC /* VideoCollectionViewCell.swift */; };
+		5E35049F2D40D08D004659DC /* NetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E35049E2D40D08D004659DC /* NetWorkError.swift */; };
 		5EF91ECF2D3CC1E500BD958D /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91ECE2D3CC1E500BD958D /* PhotoDetailViewController.swift */; };
 		5EF91ED12D3CD1E100BD958D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91ED02D3CD1E100BD958D /* Extension.swift */; };
 		5EF91ED42D3D03A600BD958D /* TopicPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91ED32D3D03A600BD958D /* TopicPhotoViewController.swift */; };
@@ -53,6 +55,8 @@
 		5E1AEB492D3BD3C5001143BF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5E1AEB4B2D3BD3ED001143BF /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5E1AEB4D2D3BD403001143BF /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		5E3504952D3FE3E4004659DC /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		5E35049E2D40D08D004659DC /* NetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkError.swift; sourceTree = "<group>"; };
 		5EF91ECE2D3CC1E500BD958D /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		5EF91ED02D3CD1E100BD958D /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		5EF91ED32D3D03A600BD958D /* TopicPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotoViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 		5E1AEB182D3A6A46001143BF /* SeSac18HW */ = {
 			isa = PBXGroup;
 			children = (
+				5E35049D2D40D076004659DC /* NetworkError */,
 				5EF91F162D3E64B900BD958D /* Service */,
 				5EF91F112D3E377700BD958D /* URL */,
 				5EF91EE32D3D52DA00BD958D /* Like */,
@@ -141,6 +146,14 @@
 			path = BaseView;
 			sourceTree = "<group>";
 		};
+		5E35049D2D40D076004659DC /* NetworkError */ = {
+			isa = PBXGroup;
+			children = (
+				5E35049E2D40D08D004659DC /* NetWorkError.swift */,
+			);
+			path = NetworkError;
+			sourceTree = "<group>";
+		};
 		5EF91ED22D3D038D00BD958D /* Topic */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				5EF91ED62D3D043200BD958D /* VideoViewController.swift */,
+				5E3504952D3FE3E4004659DC /* VideoCollectionViewCell.swift */,
 			);
 			name = Video;
 			path = "퍋ㅇ대";
@@ -273,6 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E35049F2D40D08D004659DC /* NetWorkError.swift in Sources */,
 				5E1AEB1E2D3A6A46001143BF /* ViewController.swift in Sources */,
 				5E1AEB322D3B9E4D001143BF /* PhotoSearchViewController.swift in Sources */,
 				5E1AEB4A2D3BD3C5001143BF /* NetworkManager.swift in Sources */,
@@ -291,6 +306,7 @@
 				5E1AEB302D3B9D4E001143BF /* Photo.swift in Sources */,
 				5EF91EE52D3D52FA00BD958D /* LikeViewController.swift in Sources */,
 				5EF91F182D3E64C900BD958D /* PhotoService.swift in Sources */,
+				5E3504962D3FE3E4004659DC /* VideoCollectionViewCell.swift in Sources */,
 				5EF91F132D3E378800BD958D /* Urls.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

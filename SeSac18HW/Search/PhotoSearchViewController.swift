@@ -10,20 +10,20 @@ import Alamofire
 import SnapKit
 import Kingfisher
 
-class PhotoSearchViewController: UIViewController {
+final class PhotoSearchViewController: UIViewController {
     
-    var photoSearchDetailView = PhotoSearchDetailView()
+    private var photoSearchDetailView = PhotoSearchDetailView()
     
-    var list: [PhotoElement] = []
+    private var list: [PhotoElement] = []
     
-    var color: String = "black"
+    private var color: String = "black"
     
-    var colorList: [String] = ["black", "white", "yellow", "red", "purple", "green", "blue"]
-    var page: Int = 1
-    var isEnd: Bool = false
-    var order: String = "relevant"
+    private var colorList: [String] = ["black", "white", "yellow", "red", "purple", "green", "blue"]
+    private var page: Int = 1
+    private var isEnd: Bool = false
+    private var order: String = "relevant"
     
-    var query: String = ""
+    private var query: String = ""
     
     override func loadView() {
         self.view = photoSearchDetailView
@@ -40,7 +40,7 @@ class PhotoSearchViewController: UIViewController {
         
     }
     
-    func configureView() {
+    private func configureView() {
         photoSearchDetailView.shoppingSearchBar.delegate = self
         
         view.backgroundColor = .white
@@ -55,7 +55,7 @@ class PhotoSearchViewController: UIViewController {
         photoSearchDetailView.collectionView.prefetchDataSource = self
     }
     
-    func configureActions() {
+    private func configureActions() {
         [photoSearchDetailView.blackButton,
          photoSearchDetailView.whiteButton,
          photoSearchDetailView.yellowButton,
@@ -92,7 +92,6 @@ extension PhotoSearchViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PhotoDetailViewController()
         
-//        vc.contents = (indexPath.item).formatted()
         vc.list = list[indexPath.item]
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -113,21 +112,7 @@ extension PhotoSearchViewController: UISearchBarDelegate {
         
         query = text
         
-        NetworkManager.shared.request(url: "https://api.unsplash.com/search/photos?&page=1&per_page=20&client_id=\(APIKey.clientID)&order_by=relevant&color=black" + "&query=\(query)" + "&order_by=\(order)" + "&color=\(color)", T: Photo.self) { [weak self] (photo: Photo) in
-            guard let self = self else {return}
-            
-            list = photo.results
-            
-            if list.isEmpty {
-                photoSearchDetailView.mainLabel.isHidden = false
-                photoSearchDetailView.mainLabel.text = "검색 결과가 없어요."
-                photoSearchDetailView.collectionView.reloadData()
-            } else {
-                photoSearchDetailView.mainLabel.isHidden = true
-            }
-            
-            photoSearchDetailView.collectionView.reloadData()
-        }
+        requestPhotoData()
     }
 }
 
@@ -144,7 +129,7 @@ extension PhotoSearchViewController: UICollectionViewDataSourcePrefetching {
 
 extension PhotoSearchViewController {
     @objc
-    func radioButton(_ sender: UIButton) {
+    private func radioButton(_ sender: UIButton) {
         [photoSearchDetailView.blackButton,
          photoSearchDetailView.whiteButton,
          photoSearchDetailView.yellowButton,
@@ -161,16 +146,14 @@ extension PhotoSearchViewController {
     }
     
     @objc
-    func sort() {
+    private func sort() {
         page = 1
         requestPhotoData()
     }
     
     
     @objc
-    func orderList() {
-        print(#function)
-        
+    private func orderList() {
         page = 1
         
         photoSearchDetailView.orderButton.isSelected.toggle()
@@ -188,8 +171,8 @@ extension PhotoSearchViewController {
 }
 
 extension PhotoSearchViewController {
-    func requestPhotoData() {
-        NetworkManager.shared.request(url: "https://api.unsplash.com/search/photos?&page=\(page)&per_page=20&client_id=\(APIKey.clientID)" + "&query=\(query)" + "&order_by=\(order)" + "&color=\(color)", T: Photo.self) { [weak self] (photo: Photo) in
+    private func requestPhotoData() {
+        NetworkManager.shared.fetchData(api: PhotoRouter.getSearch(keyword: query, page: page, per_page: 20, order: order, color: color), T: Photo.self) { [weak self] (photo: Photo) in
             guard let self = self else {return}
             
             if photo.total_pages == page {
@@ -198,7 +181,7 @@ extension PhotoSearchViewController {
                 isEnd = false
             }
             
-            if list.isEmpty {
+            if photo.results.isEmpty {
                 photoSearchDetailView.mainLabel.isHidden = false
                 photoSearchDetailView.mainLabel.text = "검색 결과가 없어요."
                 photoSearchDetailView.collectionView.reloadData()
@@ -211,11 +194,16 @@ extension PhotoSearchViewController {
                 photoSearchDetailView.mainLabel.isHidden = true
             }
             
-            if page == 1 {
-                photoSearchDetailView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            DispatchQueue.main.async {
+                if self.page == 1 {
+                    self.photoSearchDetailView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+                }
             }
             
+            print(query)
             photoSearchDetailView.collectionView.reloadData()
+        } errorCompletion: { error in
+            self.present(UIViewController.customAlert(errorMessage: NetWorkError(rawValue: error)?.message ?? ""), animated: true)
         }
     }
 }

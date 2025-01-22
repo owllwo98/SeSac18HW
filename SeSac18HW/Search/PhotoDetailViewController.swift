@@ -10,12 +10,10 @@ import SnapKit
 import Kingfisher
 
 class PhotoDetailViewController: UIViewController {
-
-    var contents: String = ""
     
     var list: PhotoElement?
     
-    let imageScrollView: UIScrollView = UIScrollView()
+    private let imageScrollView: UIScrollView = UIScrollView()
     
     lazy var profileImage: UIImageView = {
         let image = UIImageView()
@@ -60,16 +58,16 @@ class PhotoDetailViewController: UIViewController {
         return label
     }()
     
-    let labelStackView = UIStackView()
-    let numberStackView = UIStackView()
+    private let labelStackView = UIStackView()
+    private let numberStackView = UIStackView()
     
-    let sizeLabel = PhotoDetailViewController.createLabel(title: "크기")
-    let viewsLabel = PhotoDetailViewController.createLabel(title: "조회수")
-    let downloadLabel = PhotoDetailViewController.createLabel(title: "다운로드")
+    private let sizeLabel = PhotoDetailViewController.createLabel(title: "크기")
+    private let viewsLabel = PhotoDetailViewController.createLabel(title: "조회수")
+    private let downloadLabel = PhotoDetailViewController.createLabel(title: "다운로드")
     
-    var sizeNumLabel = PhotoDetailViewController.createLabel(title: "" )
-    var viewsNumLabel = PhotoDetailViewController.createLabel(title: "" )
-    var downloadNumLabel = PhotoDetailViewController.createLabel(title: "" )
+    private var sizeNumLabel = PhotoDetailViewController.createLabel(title: "" )
+    private var viewsNumLabel = PhotoDetailViewController.createLabel(title: "" )
+    private var downloadNumLabel = PhotoDetailViewController.createLabel(title: "" )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,9 +81,11 @@ class PhotoDetailViewController: UIViewController {
         
         requestData()
         
+        navigationController?.navigationBar.isHidden = false
+        
     }
     
-    func configureHierarchy() {
+    private func configureHierarchy() {
         view.addSubview(profileImage)
         view.addSubview(userNameLabel)
         view.addSubview(dateLabel)
@@ -107,7 +107,7 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         profileImage.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(8)
             make.leading.equalToSuperview().inset(8)
@@ -157,7 +157,7 @@ class PhotoDetailViewController: UIViewController {
  
     }
     
-    func configureUI() {
+    private func configureUI() {
         guard let list else {
             return
         }
@@ -185,7 +185,7 @@ class PhotoDetailViewController: UIViewController {
         return label
     }
 
-    func requestData() {
+    private func requestData() {
         guard let list else {
             return
         }
@@ -195,6 +195,8 @@ class PhotoDetailViewController: UIViewController {
             
             viewsNumLabel.text = detailPhoto.views.total.formatted()
             downloadNumLabel.text = detailPhoto.downloads.total.formatted()
+        } errorCompletion: { error in
+            self.present(UIViewController.customAlert(errorMessage: NetWorkError(rawValue: error)?.message ?? ""), animated: true)
         }
     }
 

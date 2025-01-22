@@ -1,18 +1,17 @@
 //
-//  FirstTopicCollectionViewCell.swift
+//  VideoCollectionViewCell.swift
 //  SeSac18HW
 //
-//  Created by 변정훈 on 1/19/25.
+//  Created by 변정훈 on 1/21/25.
 //
 
 import UIKit
 import SnapKit
 import Kingfisher
 
-final class FirstTopicCollectionViewCell: UICollectionViewCell {
-    
-    private let topicImageView: UIImageView = UIImageView()
-    private let starLabel: UILabel = UILabel()
+final class VideoCollectionViewCell: UICollectionViewCell {
+    let topicImageView: UIImageView = UIImageView()
+    let starLabel: UILabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,6 +59,4 @@ final class FirstTopicCollectionViewCell: UICollectionViewCell {
         
         UILabel.updateWithPhotoElement(starLabel, list)
     }
-    
 }
-

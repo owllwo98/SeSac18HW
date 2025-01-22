@@ -10,13 +10,13 @@ import Alamofire
 import SnapKit
 import Kingfisher
 
-class TopicPhotoViewController: UIViewController {
+final class TopicPhotoViewController: UIViewController {
     
-    var firstList: [PhotoElement] = []
-    var secondList: [PhotoElement] = []
-    var thirdList: [PhotoElement] = []
+    private var firstList: [PhotoElement] = []
+    private var secondList: [PhotoElement] = []
+    private var thirdList: [PhotoElement] = []
     
-    let categories = [
+    private let categories = [
         "architecture-interior","golden-hour","wallpapers","nature","3d-renders","travel","textures-patterns","street-photography","film","archival","experimental","animals","fashion-beauty","people","business-work","food-drink"
     ].shuffled()
     
@@ -30,8 +30,8 @@ class TopicPhotoViewController: UIViewController {
         return label
     }()
     
-    let verticalScrollView: UIScrollView = UIScrollView()
-    let contentView = UIView()
+    private let verticalScrollView: UIScrollView = UIScrollView()
+    private let contentView = UIView()
     
     lazy var firstCollectionView: UICollectionView = createHorizontalCollectionView()
     lazy var secondCollectionView: UICollectionView = createHorizontalCollectionView()
@@ -94,7 +94,7 @@ class TopicPhotoViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .black
     }
     
-    func createHorizontalCollectionView() -> UICollectionView {
+    private func createHorizontalCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 2, height: UIScreen.main.bounds.width / 1.5)
         layout.minimumLineSpacing = 4
@@ -107,7 +107,7 @@ class TopicPhotoViewController: UIViewController {
         return collectionView
     }
     
-    func configureHierarchy() {
+    private func configureHierarchy() {
         view.addSubview(titleLabel)
         view.addSubview(verticalScrollView)
         verticalScrollView.addSubview(contentView)
@@ -121,7 +121,7 @@ class TopicPhotoViewController: UIViewController {
         contentView.addSubview(thirdCollectionView)
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(32)
             make.leading.equalToSuperview().inset(16)
@@ -224,35 +224,41 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
 }
 
 extension TopicPhotoViewController {
-    func requestData() {
+    private func requestData() {
         
         let group = DispatchGroup()
         
         group.enter()
-        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[0]), T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[0]), T: [PhotoElement].self) { [weak self] T in
             guard let self = self else {return}
-            firstList = photo
+            firstList = T
             group.leave()
+        } errorCompletion: { error in
+            self.present(UIViewController.customAlert(errorMessage: NetWorkError(rawValue: error)?.message ?? ""), animated: true)
         }
         
         group.enter()
-        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[1]), T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[1]), T: [PhotoElement].self) { [weak self] T in
             guard let self = self else {return}
-            secondList = photo
+            secondList = T
             group.leave()
+        } errorCompletion: { error in
+            self.present(UIViewController.customAlert(errorMessage: NetWorkError(rawValue: error)?.message ?? ""), animated: true)
         }
         
         group.enter()
-        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[2]), T: [PhotoElement].self) { [weak self] (photo: [PhotoElement]) in
+        NetworkManager.shared.fetchData(api: PhotoRouter.getTopic(topicID: randomCategories[2]), T: [PhotoElement].self) { [weak self] T in
             guard let self = self else {return}
-            thirdList = photo
+            thirdList = T
             group.leave()
+        } errorCompletion: { error in
+            self.present(UIViewController.customAlert(errorMessage: NetWorkError(rawValue: error)?.message ?? ""), animated: true)
         }
         
         group.notify(queue: .main) {
             [self.firstCollectionView, self.secondCollectionView, self.thirdCollectionView].forEach {
                 $0.reloadData()
-            }
+            } 
         }
     }
 }

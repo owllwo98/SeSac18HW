@@ -71,3 +71,22 @@ extension String {
         return date
     }
 }
+
+extension UIViewController {
+    static func customAlert(errorMessage: String) -> UIAlertController {
+        let saveAlert = UIAlertController(title: "네트워크 오류 발생!", message: errorMessage , preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default) { action in
+            
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
+            
+        }
+        
+        saveAlert.addAction(okAction)
+        saveAlert.addAction(cancelAction)
+
+        return saveAlert
+    }
+}

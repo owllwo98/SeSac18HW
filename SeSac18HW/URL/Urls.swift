@@ -51,8 +51,8 @@ extension PhotoRouter: URLRequestConvertible  {
         case .getTopic:
             return nil
         case .getSearch(keyword: let keyword, page: let page, per_page: let per_page, order: let order, color: let color):
-            return ["query" : keyword, "page" : page, "per_page": per_page, "order" : order, "color" : color]
-        case .getStatistics(imageID: let imageID):
+            return ["query" : keyword, "page" : page, "per_page": per_page, "order_by" : order, "color" : color]
+        case .getStatistics:
             return nil
         }
     }

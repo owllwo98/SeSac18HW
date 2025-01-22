@@ -9,6 +9,8 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
+  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +27,7 @@ class TabBarController: UITabBarController {
         
         let secondVC = VideoViewController()
         secondVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "play.square.stack"), selectedImage: UIImage(systemName: "play.square.stack.fill"))
+        let secondNav = UINavigationController(rootViewController: secondVC)
         
         let thirdVC = PhotoSearchViewController()
         thirdVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass.circle.fill"))
@@ -33,7 +36,7 @@ class TabBarController: UITabBarController {
         let FourthVC = LikeViewController()
         FourthVC.tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
         
-        setViewControllers([firstNAV, secondVC, thirdNav, FourthVC], animated: true)
+        setViewControllers([firstNAV, secondNav, thirdNav, FourthVC], animated: true)
     }
     
     func setupTabBarAppearance() {
