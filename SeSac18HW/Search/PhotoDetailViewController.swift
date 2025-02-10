@@ -11,7 +11,7 @@ import Kingfisher
 
 class PhotoDetailViewController: UIViewController {
     
-    var list: PhotoElement?
+    let viewModel = PhotoDetailViewModel()
     
     private let imageScrollView: UIScrollView = UIScrollView()
     
@@ -79,10 +79,43 @@ class PhotoDetailViewController: UIViewController {
         configureLayout()
         configureUI()
         
-        requestData()
-        
         navigationController?.navigationBar.isHidden = false
         
+        bindData()
+        
+    }
+    
+    func bindData() {
+        viewModel.output.profileImage.bind { value in
+            let profileUrl = URL(string: value)
+            
+            self.profileImage.kf.setImage(with: profileUrl)
+        }
+        
+        viewModel.output.userName.bind { value in
+            self.userNameLabel.text = value
+        }
+        
+        viewModel.output.date.bind { value in
+            self.dateLabel.text = value
+        }
+        
+        viewModel.output.detailImage.bind { value in
+            let imageUrl = URL(string: value)
+            self.detailImageView.kf.setImage(with: imageUrl)
+        }
+        
+        viewModel.output.sizeNum.bind { value in
+            self.sizeNumLabel.text = value
+        }
+        
+        viewModel.output.viewsNum.bind { value in
+            self.viewsNumLabel.text = value.formatted()
+        }
+        
+        viewModel.output.downloadNum.bind { value in
+            self.downloadNumLabel.text = value.formatted()
+        }
     }
     
     private func configureHierarchy() {
@@ -158,21 +191,7 @@ class PhotoDetailViewController: UIViewController {
     }
     
     private func configureUI() {
-        guard let list else {
-            return
-        }
-        print(#function)
-        let profileUrl = URL(string: list.user.profile_image.small)
-        profileImage.kf.setImage(with: profileUrl)
-        
-        userNameLabel.text = list.user.name
-        dateLabel.text = list.created_at
-
-       
-        let imageUrl = URL(string: list.urls.small)
-        detailImageView.kf.setImage(with: imageUrl)
-        
-        sizeNumLabel.text = list.width.formatted() + " X " + list.height.formatted()
+      
     }
     
     
@@ -184,20 +203,4 @@ class PhotoDetailViewController: UIViewController {
       
         return label
     }
-
-    private func requestData() {
-        guard let list else {
-            return
-        }
-        
-        NetworkManager.shared.fetchData(api: PhotoRouter.getStatistics(imageID: list.id), T: DetailPhoto.self) { [weak self] (detailPhoto: DetailPhoto) in
-            guard let self = self else {return}
-            
-            viewsNumLabel.text = detailPhoto.views.total.formatted()
-            downloadNumLabel.text = detailPhoto.downloads.total.formatted()
-        } errorCompletion: { error in
-            self.present(UIViewController.customAlert(errorMessage: NetWorkError(rawValue: error)?.message ?? ""), animated: true)
-        }
-    }
-
 }

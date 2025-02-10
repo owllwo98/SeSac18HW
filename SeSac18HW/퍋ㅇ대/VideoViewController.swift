@@ -89,7 +89,8 @@ extension VideoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PhotoDetailViewController()
         
-        vc.list = firstList[indexPath.item]
+//        vc.list = firstList[indexPath.item]
+        vc.viewModel.input.photoData.value = firstList[indexPath.item]
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

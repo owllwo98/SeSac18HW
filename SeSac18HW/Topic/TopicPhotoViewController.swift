@@ -211,13 +211,16 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         let vc = PhotoDetailViewController()
         
         if collectionView == firstCollectionView {
-            vc.list = firstList[indexPath.item]
+//            vc.list = firstList[indexPath.item]
+            vc.viewModel.input.photoData.value = firstList[indexPath.item]
             self.navigationController?.pushViewController(vc, animated: true)
         } else if collectionView == secondCollectionView {
-            vc.list = secondList[indexPath.item]
+//            vc.list = secondList[indexPath.item]
+            vc.viewModel.input.photoData.value = secondList[indexPath.item]
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            vc.list = thirdList[indexPath.item]
+//            vc.list = thirdList[indexPath.item]
+            vc.viewModel.input.photoData.value = thirdList[indexPath.item]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
